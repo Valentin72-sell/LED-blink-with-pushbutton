@@ -1,0 +1,43 @@
+const int buttonPin = 2;
+const int led1 = 8;
+const int led2 = 9;
+const int led3 = 10;
+
+int buttonState = 0;
+int lastButtonState = 0;
+int count = 0;
+
+void setup() {
+  pinMode(buttonPin, INPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+}
+
+void loop() {
+  buttonState = digitalRead(buttonPin);
+
+  // detect button press (rising edge)
+  if (buttonState == HIGH && lastButtonState == LOW) {
+    count++;
+    delay(200); // debounce
+  }
+
+  lastButtonState = buttonState;
+
+  // turn off all LEDs first
+  digitalWrite(led1, LOW);
+  digitalWrite(led2, LOW);
+  digitalWrite(led3, LOW);
+
+  // control LEDs based on count
+  if (count == 1) {
+    digitalWrite(led1, HIGH);
+  } else if (count == 2) {
+    digitalWrite(led2, HIGH);
+  } else if (count == 3) {
+    digitalWrite(led3, HIGH);
+  } else if (count > 3) {
+    count = 0;
+  }
+}
